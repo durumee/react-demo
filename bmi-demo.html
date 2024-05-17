@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI 변화량 예측</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-statistics"></script>
+</head>
+<body>
+    <canvas id="bmiChart" width="400" height="200"></canvas>
+    <div id="prediction"></div>
+    <script>
+        // 현재 날짜
+        const today = new Date();
+
+        // 최근 6개월 날짜 생성
+        const dates = Array.from({ length: 6 }, (_, i) => {
+            const date = new Date(today);
+            date.setMonth(today.getMonth() - i);
+            return date.toISOString().substring(0, 7); // YYYY-MM 형식
+        }).reverse();
+
+        // BMI 값 랜덤 생성 (예: 20.0 ~ 25.0 사이)
+        const bmiValues = Array.from({ length: 6 }, () => (Math.random() * 5 + 20).toFixed(1));
+
+        // 데이터를 [index, value] 형식으로 변환
+        const data = bmiValues.map((value, index) => [index, parseFloat(value)]);
+
+        // 선형 회귀 모델 생성 및 예측
+        const regression = ss.linearRegression(data);
+        const linearRegressionLine = ss.linearRegressionLine(regression);
+
+        // 다음 달 예측 (다음 달의 인덱스는 6)
+        const nextMonthIndex = data.length;
+        const nextMonthPrediction = linearRegressionLine(nextMonthIndex).toFixed(1);
+
+        // 차트 생성
+        const ctx = document.getElementById('bmiChart').getContext('2d');
+        const bmiChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'BMI',
+                    data: bmiValues,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                    borderWidth: 1,
+                    fill: true,
+                    lineTension: 0.1,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '날짜'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'BMI'
+                        },
+                        beginAtZero: false,
+                        suggestedMin: 18,
+                        suggestedMax: 30
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '최근 6개월간 BMI 변화량'
+                    }
+                }
+            }
+        });
+
+        // 예측 결과 표시
+        document.getElementById('prediction').innerHTML = `다음 달 예상 BMI: ${nextMonthPrediction}`;
+    </script>
+</body>
+</html>

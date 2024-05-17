@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI 변화량 예측</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <canvas id="bmiChart" width="400" height="200"></canvas>
+    <div id="prediction"></div>
+    <script>
+        // 현재 날짜
+        const today = new Date();
+
+        // 최근 6개월 날짜 생성
+        const dates = Array.from({ length: 6 }, (_, i) => {
+            const date = new Date(today);
+            date.setMonth(today.getMonth() - i);
+            return date.toISOString().substring(0, 7); // YYYY-MM 형식
+        }).reverse();
+
+        // 체중, 영양섭취량, 결혼 여부, 성별 데이터 생성
+        const weights = [70, 72, 68, 75, 73, 71]; // kg
+        const calories = [2500, 2800, 2600, 2700, 2900, 2700]; // kcal
+        const isMarried = [0, 1, 0, 1, 1, 0]; // 결혼 여부 (0: 미혼, 1: 기혼)
+        const genders = ['male', 'female', 'male', 'female', 'male', 'female']; // 성별
+
+        // BMI 값 (체중(kg) / 키(m)^2)
+        const bmiValues = weights.map((weight, index) => {
+            const height = 1.7; // 키(m)
+            return (weight / (height ** 2)).toFixed(1);
+        });
+
+        // TensorFlow.js 다변량 회귀 모델 생성 및 훈련
+        async function trainModel() {
+            const model = tf.sequential();
+            model.add(tf.layers.dense({ units: 1, inputShape: [4] }));
+            model.compile({ optimizer: 'sgd', loss: 'meanSquaredError' });
+
+            // 입력 데이터 준비
+            const inputs = tf.tensor2d(weights.map((weight, index) => [weight, calories[index], isMarried[index], genders[index] === 'male' ? 0 : 1]));
+
+            // 레이블 데이터 준비
+            const labels = tf.tensor2d(bmiValues.map(value => parseFloat(value)), [bmiValues.length, 1]);
+
+            // 모델 훈련
+            await model.fit(inputs, labels, { epochs: 100 });
+
+            return model;
+        }
+
+        // 모델 훈련 및 예측
+        trainModel().then(model => {
+            const nextMonthIndex = 6;
+            const nextMonthWeight = 72; // 예시로 고정된 값
+            const nextMonthCalories = 2800; // 예시로 고정된 값
+            const nextMonthIsMarried = 1; // 예시로 고정된 값
+            const nextMonthGender = 'female'; // 예시로 고정된 값
+
+            // 다음 달 예상 BMI 예측을 위한 입력 데이터
+            const nextMonthInputs = tf.tensor2d([[nextMonthWeight, nextMonthCalories, nextMonthIsMarried, nextMonthGender === 'male' ? 0 : 1]]);
+
+            // 모델을 사용하여 예측
+            const nextMonthPredictionTensor = model.predict(nextMonthInputs);
+            nextMonthPredictionTensor.array().then(array => {
+                const nextMonthPrediction = array[0][0].toFixed(1);
+
+                // 예측 결과 표시
+                document.getElementById('prediction').innerHTML = `다음 달 예상 BMI: ${nextMonthPrediction}`;
+
+                // 차트 생성
+                const ctx = document.getElementById('bmiChart').getContext('2d');
+                const bmiChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'BMI',
+                            data: bmiValues,
+                            borderColor: 'blue',
+                            backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                            borderWidth: 1,
+                            fill: true,
+                            lineTension: 0.1,
+                            pointBackgroundColor: 'blue',
+                            pointBorderColor: 'blue',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '날짜'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'BMI'
+                                },
+                                beginAtZero: false,
+                                suggestedMin: 18,
+                                suggestedMax: 30
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '최근 6개월간 BMI 변화량'
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
