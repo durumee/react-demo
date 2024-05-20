@@ -1,3 +1,5 @@
+// This project uses react-icons, which is licensed under the MIT License.
+// See https://github.com/react-icons/react-icons/blob/master/LICENSE for more information.
 import TodoListItem from "./TodoListItem";
 import styles from "./TodoList.module.css";
 
