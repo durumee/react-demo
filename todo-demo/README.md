@@ -1,3 +1,6 @@
+This project uses the following open-source libraries:
+- react-icons (MIT License)
+
 리액트 아이콘 컴포넌트를 통해 간단한 아이콘들을 활용할 수 있다
 
 > [React Icons (react-icons.github.io)](https://react-icons.github.io/react-icons/)
