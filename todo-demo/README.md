@@ -1,8 +1,22 @@
-# React + Vite
+리액트 아이콘 컴포넌트를 통해 간단한 아이콘들을 활용할 수 있다
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> [React Icons (react-icons.github.io)](https://react-icons.github.io/react-icons/)
+> 
 
-Currently, two official plugins are available:
+```jsx
+yarn add react-icons
+# or
+npm install react-icons --save
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```jsx
+import { FaBeer } from "react-icons/fa";
+
+function Question() {
+  return (
+    <h3>
+      Lets go for a <FaBeer />?
+    </h3>
+  );
+}
+```
