@@ -1,3 +1,5 @@
+// This project uses react-icons, which is licensed under the MIT License.
+// See https://github.com/react-icons/react-icons/blob/master/LICENSE for more information.
 import { MdAdd } from "react-icons/md";
 import styles from "./TodoInsert.module.css";
 import { useCallback, useState } from "react";
