@@ -1,8 +1,30 @@
-# React + Vite
+Github 등에 올라가면 API Key 를 외부에 유출하기 때문에 아래처럼 관리하는 것을 알아두자
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- ./src/secret.js 파일 생성하고 내용 입력, YOUR_API_KEY 를 소유한 키로 변경
 
-Currently, two official plugins are available:
+```jsx
+const API_KEY = "YOUR_API_KEY";
+export { API_KEY };
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 프로젝트 루트의 .gitignore 파일에 내용 추가하여 깃허브 등에 업로드 방지
+
+```jsx
+src/secret.js
+```
+
+- 키를 사용할 컴포넌트에서 import
+
+```jsx
+import { API_KEY } from "./secret.js";
+```
+
+- 내부에서 값을 사용
+
+```jsx
+... 생략
+const data = await fetch(
+  `https://api.openweathermap.org/data/2.5/weather?lat=${lat2}&lon=${lon2}&units=metric&appid=${API_KEY}`
+        );
+... 생략
+```
