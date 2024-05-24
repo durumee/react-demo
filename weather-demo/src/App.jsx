@@ -4,8 +4,12 @@ import Clock from "./Clock";
 import Weather from "./Weather";
 import Area from "./Area";
 import { useEffect, useState } from "react";
+import MiniForecast from "./MiniForecast.jsx";
 
 function App() {
+  const temperatures = [25, 27, 27, 24, 21];
+  const timeLabels = ['12', '14', '16', '18', '20'];
+  const weatherIcons = ['S', 'C', 'C', 'R', 'R'];
   const [area, setArea] = useState({});
   const [weather, setWeather] = useState({});
   const [error, setError] = useState(null);
@@ -52,6 +56,11 @@ function App() {
   return (
     <div className="App">
       <Clock />
+      <MiniForecast
+        temperatures={temperatures}
+        timeLabels={timeLabels}
+        weatherIcons={weatherIcons}
+      />
       {error ? (
         <div className="error">{error}</div>
       ) : (
