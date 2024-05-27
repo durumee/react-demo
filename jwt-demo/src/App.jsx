@@ -1,4 +1,4 @@
-import styles from "./NavBar.module.css";
+import styles from "./App.module.css";
 import Login from "./component/Login";
 import Logout from "./component/Logout";
 import Cart from "./component/Cart";
@@ -75,6 +75,27 @@ const PrivateRoute = ({ element: Element, ...rest }) => {
 };
 
 function App() {
+  const [isAuth, setIsAuth] = useState(isAuthenticated());
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      setIsAuth(isAuthenticated());
+    };
+
+    window.addEventListener("storage", handleAuthChange);
+    return () => {
+      window.removeEventListener("storage", handleAuthChange);
+    };
+  }, []);
+
+  const handleLogin = () => {
+    setIsAuth(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuth(false);
+  };
+
   return (
     <Router>
       <div>
@@ -100,28 +121,33 @@ function App() {
                 Cart
               </Link>
             </li>
-            <li className={styles.navItem}>
-              <Link to="/login" className={styles.navLink}>
-                Login
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Logout className={styles.navLink} />
-            </li>
+            {isAuth ? (
+              <li className={styles.navItem}>
+                <Logout className={styles.navLink} onLogout={handleLogout} />
+              </li>
+            ) : (
+              <li className={styles.navItem}>
+                <Link to="/login" className={styles.navLink}>
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
-        <Routes>
-          {/* 공개 라우트 */}
-          <Route path="/" element={<Main />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
+        <div className={styles.content}>
+          <Routes>
+            {/* 공개 라우트 */}
+            <Route path="/" element={<Main />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
 
-          {/* 인증이 필요한 라우트는 이렇게 사용 */}
-          <Route path="/info" element={<PrivateRoute element={Info} />} />
+            {/* 인증이 필요한 라우트는 이렇게 사용 */}
+            <Route path="/info" element={<PrivateRoute element={Info} />} />
 
-          {/* 내부 API 사용시 백엔드 401 오류 발생하면 로그인 페이지로 이동 */}
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
+            {/* 내부 API 사용시 백엔드 401 오류 발생하면 로그인 페이지로 이동 */}
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

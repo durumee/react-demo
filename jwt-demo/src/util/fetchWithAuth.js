@@ -1,3 +1,17 @@
+document.querySelectorAll('.hljs-attr').forEach(attrElement => {
+    let nextNode = attrElement.nextSibling;
+    
+    // 다음 형제 노드가 텍스트 노드인지 확인
+    while (nextNode && nextNode.nodeType !== Node.TEXT_NODE) {
+      nextNode = nextNode.nextSibling;
+    }
+    
+    if (nextNode && nextNode.nodeType === Node.TEXT_NODE) {
+      console.log('다음 형제 텍스트 노드:', nextNode.textContent.trim());
+      // 여기서 원하는 작업을 수행할 수 있습니다.
+    }
+  });
+  
 const fetchWithAuth = async (url, options = {}) => {
     let token = localStorage.getItem("accessToken");
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css"; // 스타일을 위한 CSS 모듈
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,6 +34,7 @@ const Login = () => {
         if (authHeader && authHeader.startsWith("Bearer ")) {
           const jwtToken = authHeader.replace("Bearer ", "");
           localStorage.setItem("accessToken", jwtToken);
+          onLogin(); // 로그인 상태로 전환
           navigate(from, { replace: true });
         } else {
           setError("Authorization 헤더가 없거나 형식이 잘못되었습니다.");
