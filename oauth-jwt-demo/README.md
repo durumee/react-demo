@@ -1,5 +1,4 @@
-> yarn add react-router-dom
-
-PrivateRoute 코드를 통해 사용자 인증(JWT 기반)을 수행한다
-
-TODO: 리프레시 토큰 기능 미적용
+* jwt-demo 예제에 OAuth 로그인 기능을 추가한 버전
+  * 스프링부트의 oauth-demo 서버를 기반으로 동작 예제가 실행됨
+* Github 인증을 통해 로그인 처리가 되면
+  * Login 컴포넌트 라우팅을 통해 로그인 처리가 되고 이후에는 jwt를 통한 인증 처리를 유지함
