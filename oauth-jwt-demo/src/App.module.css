@@ -1,0 +1,94 @@
+/* App.module.css */
+
+/* 기존 스타일 */
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  margin-right: 1rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #007bff;
+}
+
+@media (max-width: 768px) {
+  .navBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navList {
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+
+  .navItem {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.content {
+  margin-top: 4rem; /* 네비게이션 바 높이만큼 마진 추가 */
+  padding: 1rem;
+}
+
+/* 추가된 스타일 */
+.navBar {
+  background-color: #666;
+}
+
+.navLink {
+  color: white;
+}
+
+.navLink:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+.content {
+  padding: 20px;
+  background-color: #fff;
+  width: 97vw;
+  min-height: calc(100vh - 60px); /* 화면 높이에 맞게 콘텐츠 영역을 확장 */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.6;
+}
