@@ -55,7 +55,8 @@
 }
 
 .content {
-  margin-top: 4rem; /* 네비게이션 바 높이만큼 마진 추가 */
+  margin-top: 4rem;
+  /* 네비게이션 바 높이만큼 마진 추가 */
   padding: 1rem;
 }
 
@@ -77,7 +78,8 @@
   padding: 20px;
   background-color: #fff;
   width: 97vw;
-  min-height: calc(100vh - 60px); /* 화면 높이에 맞게 콘텐츠 영역을 확장 */
+  min-height: calc(100vh - 60px);
+  /* 화면 높이에 맞게 콘텐츠 영역을 확장 */
   display: flex;
   justify-content: center;
   align-items: top;

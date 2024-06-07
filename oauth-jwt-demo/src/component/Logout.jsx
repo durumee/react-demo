@@ -1,7 +1,16 @@
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Logout = ({ className, onLogout }) => {
   const navigate = useNavigate();
+  const [subId, setSubId] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const decoded = jwtDecode(token);
+    setSubId(decoded?.sub.split('_')[1]);  //https://avatars.githubusercontent.com/u/
+  }, [])
 
   const handleLogout = async () => {
     const token = localStorage.getItem("accessToken");
@@ -28,8 +37,11 @@ const Logout = ({ className, onLogout }) => {
     }
   };
 
+  const avatarUrl = subId ? `https://avatars.githubusercontent.com/u/${subId}` : '';
+
   return (
-    <Link to="#" onClick={handleLogout} className={className}>
+    <Link to="#" onClick={handleLogout} className={className} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+      {subId && <img src={avatarUrl} alt="avatar" style={{ width: '24px', height: '24px', borderRadius: '30%', marginRight: '8px' }} />}
       Logout
     </Link>
   );
