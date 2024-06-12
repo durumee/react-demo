@@ -4,7 +4,7 @@ import Clock from "./Clock";
 import Weather from "./Weather";
 import Area from "./Area";
 import { useEffect, useState } from "react";
-import MiniForecast from "./MiniForecast.jsx";
+import MiniForecast from "./MiniForecast";
 
 function App() {
   const temperatures = [25, 27, 27, 24, 21];
