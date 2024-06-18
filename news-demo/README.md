@@ -1,8 +1,11 @@
+> newsapi 의 경우 proxy 미지원 서버에 배포하는 경우 HTTP 426 코드를 리턴하고 동작하지 않습니다.
+> 이는 무료 API의 경우 localhost 의 cors만 허용하기 때문입니다.
+
 # 로컬에서 API 테스트를 위해서 참고할 부분
 
 - yarn add dotenv 필요 (package.json 파일 내에 dependencies: dotenv 존재해야함)
 
-- src/components/NewsPage.jsx 파일 상단의 VITE_ 로 시작하는 import.meta.env.키_이름;
+- src/components/NewsPage.jsx 파일 상단의 VITE_로 시작하는 import.meta.env.키_이름;
 
 - vite.config.js 내의 server.proxy 설정
 
@@ -19,14 +22,14 @@
 # BrowserRouter, useNavigator, useParam 등을 활용
 
 - npm 또는 yarn 으로 아래 세가지 패키지 설치
-    - yarn add -D tailwindcss postcss autoprefixer
-    - 또는
-    - npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
+  - yarn add -D tailwindcss postcss autoprefixer
+  - 또는
+  - npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 
 - 프로젝트의 Tailwind CSS 구성
-    - yarn tailwindcss init -p
-    - 또는
-    - npx tailwindcss init -p
+  - yarn tailwindcss init -p
+  - 또는
+  - npx tailwindcss init -p
 
 - tailwind.config.js 파일을 열고 content 항목에 아래 내용을 기입합니다
 
