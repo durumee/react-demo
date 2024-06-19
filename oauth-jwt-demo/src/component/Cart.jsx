@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import fetchWithAuth from "../util/fetchWithAuth"; // fetchWithAuth 함수를 별도 파일로 분리하여 사용
+const BACK_END_URL = import.meta.env.MODE === 'development'
+    ? 'http://localhost:8080'
+    : 'https://port-0-spring-boot-demo-lxl86ulic4678e61.sel5.cloudtype.app';
 
 const Cart = () => {
     const [products, setProducts] = useState([]);
@@ -9,7 +12,7 @@ const Cart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchWithAuth("http://localhost:8080/api/product");
+                const response = await fetchWithAuth(`${BACK_END_URL}/api/product`);
                 if (response.ok) {
                     const data = await response.json();
                     setProducts(data);
