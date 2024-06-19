@@ -1,6 +1,9 @@
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+const BACK_END_URL = import.meta.env.MODE === 'development'
+  ? 'http://localhost:8080'
+  : 'https://port-0-spring-boot-demo-lxl86ulic4678e61.sel5.cloudtype.app';
 
 const Logout = ({ className, onLogout }) => {
   const navigate = useNavigate();
@@ -17,7 +20,7 @@ const Logout = ({ className, onLogout }) => {
 
     if (token) {
       try {
-        const response = await fetch("http://localhost:8080/invalidate-token", {
+        const response = await fetch(`${BACK_END_URL}/invalidate-token`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,
