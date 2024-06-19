@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import styles from "./Login.module.css"; // 스타일을 위한 CSS 모듈
+const BACK_END_URL = import.meta.env.MODE === 'development'
+  ? 'http://localhost:8080'
+  : 'https://port-0-spring-boot-demo-lxl86ulic4678e61.sel5.cloudtype.app';
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -33,7 +36,7 @@ const Login = ({ onLogin }) => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/token", {
+      const response = await fetch(`${BACK_END_URL}/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
