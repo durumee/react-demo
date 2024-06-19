@@ -1,9 +1,9 @@
-import NaverBook from "./NaverBook"
+import NaverSearchTrend from "./NaverSearchTrend"
 
 function App() {
   return (
     <>
-      <NaverBook />
+      <NaverSearchTrend />
     </>
   )
 }

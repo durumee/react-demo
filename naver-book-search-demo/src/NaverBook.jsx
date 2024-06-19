@@ -13,12 +13,11 @@ const NaverBook = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    'X-Naver-Client-Id': 'YOUR_NAVER_API_CLIENT_ID',
-                    'X-Naver-Client-Secret': 'YOUR_NAVER_API_CLIENT_SECRET',
+                    'X-Naver-Client-Id': `${import.meta.env.VITE_NAVER_CLIENT_ID}`,
+                    'X-Naver-Client-Secret': `${import.meta.env.VITE_NAVER_CLIENT_SECRET}`,
                 }
             });
             const response = await data.json();
-            console.log(response);
             setBooks(response.items);
         };
 
