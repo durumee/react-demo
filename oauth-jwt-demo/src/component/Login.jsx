@@ -65,7 +65,7 @@ const Login = ({ onLogin }) => {
   };
 
   const handleGithubLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+    window.location.href = `${BACK_END_URL}/oauth2/authorization/github`;
   };
 
   return (
